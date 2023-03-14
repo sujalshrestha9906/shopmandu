@@ -15,4 +15,17 @@ class AuthService {
       return Left(DioException.getDioError(err));
     }
   }
+
+  static Future<Either<String, bool>> userSignUp(
+      {required String email,
+      required String password,
+      required String full_name}) async {
+    try {
+      final response = await dio.post(Api.login,
+          data: {'email': email, 'password': password, 'full_name': full_name});
+      return Right(true);
+    } on DioError catch (err) {
+      return Left(DioException.getDioError(err));
+    }
+  }
 }
