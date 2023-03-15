@@ -1,16 +1,23 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shopmandu/constants/api.dart';
 import 'package:shopmandu/exceptions/api_exceptions.dart';
 
+import '../model/user.dart';
+
 class AuthService {
   static Dio dio = Dio();
-  static Future<Either<String, bool>> userLogin(
+  static Future<Either<String, User>> userLogin(
       {required String email, required String password}) async {
     try {
       final response = await dio
           .post(Api.login, data: {'email': email, 'password': password});
-      return Right(true);
+
+      final user = User.fromJson(response.data);
+      final box = Hive.box<User>('user');
+      box.add(user);
+      return Right(user);
     } on DioError catch (err) {
       return Left(DioException.getDioError(err));
     }
