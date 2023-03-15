@@ -39,6 +39,8 @@ class CrudService {
       return Right(true);
     } on DioError catch (err) {
       return Left(DioException.getDioError(err));
+    } on CloudinaryException catch (e) {
+      return Left(e.responseString);
     }
   }
 }
