@@ -42,8 +42,8 @@ class AuthProvider extends StateNotifier<UserState> {
     response.fold(
         (l) => state = state.copyWith(
             isLoad: false, isError: true, isSuccess: false, errMessage: l),
-        (r) =>
-            state = state.copyWith(isLoad: true, isError: false, isSuccess: r));
+        (r) => state = state.copyWith(
+            isLoad: true, isError: false, isSuccess: r, errMessage: ''));
   }
 
   void userLogOut() async {

@@ -10,12 +10,12 @@ class StatusPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final auth = ref.watch(authProvider);
-    return ValueListenableBuilder(
-        valueListenable: Hive.box<Box>('user').listenable(),
-        builder: (context, box, m) {
-          return Scaffold(
-            body: auth.user.isEmpty ? LoginPage() : HomePage(),
-          );
-        });
+    // return ValueListenableBuilder(
+    //     valueListenable: Hive.box<Box>('user').listenable(),
+    //     builder: (context, box, m) {
+    return Scaffold(
+      body: auth.user.isEmpty ? LoginPage() : HomePage(),
+    );
+    // });
   }
 }
