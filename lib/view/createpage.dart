@@ -1,15 +1,13 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
 import 'package:shopmandu/view/widgets/snack_show.dart';
-
 import '../providers/auth_provider.dart';
 import '../providers/common_provider.dart';
 import '../providers/crud_provider.dart';
+import '../services/crud_services.dart';
 
 class CreatePage extends ConsumerStatefulWidget {
   @override
@@ -18,9 +16,7 @@ class CreatePage extends ConsumerStatefulWidget {
 
 class _CreatePageState extends ConsumerState<CreatePage> {
   final titleController = TextEditingController();
-
   final detailController = TextEditingController();
-
   final priceController = TextEditingController();
 
   final _form = GlobalKey<FormState>();
@@ -31,12 +27,14 @@ class _CreatePageState extends ConsumerState<CreatePage> {
       if (next.isError) {
         SnackShow.showFailure(context, next.errMessage);
       } else if (next.isSuccess) {
+        ref.invalidate(productShow);
         Get.back();
         SnackShow.showSuccess(context, 'success');
       }
     });
 
     final post = ref.watch(crudProvider);
+    final auth = ref.watch(authProvider);
 
     final image = ref.watch(imageProvider);
     final mod = ref.watch(mode);
@@ -81,6 +79,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                   TextFormField(
                     keyboardType: TextInputType.number,
                     maxLength: 10,
+                    //  inputFormatters: [LengthLimitingTextInputFormatter(10)],
                     validator: (val) {
                       if (val!.isEmpty) {
                         return 'please provide price';
@@ -110,7 +109,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                         contentPadding:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                         prefixIcon: Icon(Icons.lock),
-                        hintText: "Detail",
+                        hintText: "detail",
                         border: OutlineInputBorder()),
                   ),
                   InkWell(
@@ -162,17 +161,14 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                                   SnackShow.showFailure(
                                       context, 'please select an image');
                                 } else {
-                                  ref.read(crudProvider.notifier).createProduct(
-                                        product_name:
-                                            titleController.text.trim(),
-                                        product_detail:
-                                            detailController.text.trim(),
-                                        price: int.parse(
-                                            priceController.text.trim()),
-                                        image: image,
-                                        public_id: '',
-                                        imageUrl: '',
-                                      );
+                                  ref.read(crudProvider.notifier).productCreate(
+                                      product_name: titleController.text.trim(),
+                                      product_detail:
+                                          detailController.text.trim(),
+                                      image: image,
+                                      token: auth.user[0].token,
+                                      price: int.parse(
+                                          priceController.text.trim()));
                                 }
                               } else {
                                 ref.read(mode.notifier).change();

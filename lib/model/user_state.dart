@@ -4,14 +4,14 @@ class UserState {
   final bool isError;
   final String errMessage;
   final bool isSuccess;
-  final bool isLoad;
   final List<User> user;
+  final bool isLoad;
 
   UserState(
       {required this.errMessage,
+      required this.isError,
       required this.isLoad,
       required this.isSuccess,
-      required this.isError,
       required this.user});
 
   UserState copyWith(

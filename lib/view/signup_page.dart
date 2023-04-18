@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shopmandu/view/widgets/snack_show.dart';
 import '../providers/auth_provider.dart';
 import '../providers/common_provider.dart';
-import 'widgets/snack_show.dart';
 
 class SignUpPage extends ConsumerStatefulWidget {
   @override
@@ -33,6 +33,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     });
 
     final auth = ref.watch(authProvider);
+
     final mod = ref.watch(mode);
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -143,9 +144,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Already a member?",
-                      ),
+                      Text("Already a member?"),
                       TextButton(
                           onPressed: () {
                             _form.currentState!.reset();

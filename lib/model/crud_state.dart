@@ -6,9 +6,9 @@ class CrudState {
 
   CrudState(
       {required this.errMessage,
+      required this.isError,
       required this.isLoad,
-      required this.isSuccess,
-      required this.isError});
+      required this.isSuccess});
 
   CrudState copyWith(
       {bool? isError, String? errMessage, bool? isSuccess, bool? isLoad}) {

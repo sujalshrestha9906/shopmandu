@@ -1,12 +1,11 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shopmandu/view/signup_page.dart';
+import 'package:shopmandu/view/widgets/snack_show.dart';
 import '../providers/auth_provider.dart';
 import '../providers/common_provider.dart';
-import 'widgets/snack_show.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   @override
@@ -31,6 +30,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     });
 
     final auth = ref.watch(authProvider);
+
     final mod = ref.watch(mode);
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -48,6 +48,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   Text(
                     'Login Form',
                     style: TextStyle(fontSize: 25),
+                  ),
+                  SizedBox(
+                    height: 90,
                   ),
                   SizedBox(
                     height: 10.h,
@@ -111,7 +114,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             },
                       child: auth.isLoad
                           ? Center(child: CircularProgressIndicator())
-                          : Text('Login')),
+                          : Text('login')),
                   SizedBox(
                     height: 6.h,
                   ),
